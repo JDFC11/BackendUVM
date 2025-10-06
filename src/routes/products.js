@@ -20,21 +20,11 @@ router.get("/", function (req, res, next) {
     });
 });
 
-router.get("/saludar", function (req, res, next) {
+router.get("/ultimos", function (req, res, next) {
   productController
-    .saludar()
-    .then((respuesta) => {
-      res.status(200).json({
-        status: 200,
-        mensaje: respuesta,
-      });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        status: 400,
-        mensaje: error,
-      });
-    });
+    .listarUltimos()
+    .then((productos) => res.status(200).json({ status: 200, data: productos }))
+    .catch((error) => res.status(400).json({ status: 400, mensaje: error }));
 });
 
 router.post("/", function (req, res, next) {
@@ -55,6 +45,17 @@ router.post("/", function (req, res, next) {
         mensaje: error,
       });
     });
+});
+
+router.post("/lote", function (req, res, next) {
+  productController
+    .agregarVarios(req.body)
+    .then((productos) =>
+      res
+        .status(201)
+        .json({ status: 201, mensaje: "Productos agregados", data: productos })
+    )
+    .catch((error) => res.status(400).json({ status: 400, mensaje: error }));
 });
 
 router.get("/:id", function (req, res, next) {

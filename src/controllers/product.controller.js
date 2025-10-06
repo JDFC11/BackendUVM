@@ -21,6 +21,29 @@ class ProductController {
     });
   }
 
+  agregarVarios(productos) {
+    return new Promise((resolve, reject) => {
+      if (!Array.isArray(productos) || productos.length === 0) {
+        return reject("Se requiere un array de productos.");
+      }
+
+      const productosAgregados = [];
+      productos.forEach((product) => {
+        if (product.nombre && product.precio) {
+          const nuevoProducto = {
+            id: uuidv4(),
+            nombre: product.nombre,
+            precio: product.precio,
+            fechaCreacion: new Date(),
+          };
+          productsDB.push(nuevoProducto);
+          productosAgregados.push(nuevoProducto);
+        }
+      });
+      resolve(productosAgregados);
+    });
+  }
+
   obtenerPorId(id) {
     return new Promise((resolve, reject) => {
       const producto = productsDB.find((p) => p.id === id);
@@ -66,15 +89,16 @@ class ProductController {
     });
   }
 
-  listar() {
+  listarUltimos(cantidad = 5) {
     return new Promise((resolve, reject) => {
-      resolve(productsDB);
+      const ultimosProductos = productsDB.slice(-cantidad);
+      resolve(ultimosProductos);
     });
   }
 
-  saludar() {
+  listar() {
     return new Promise((resolve, reject) => {
-      resolve("Hooola");
+      resolve(productsDB);
     });
   }
 }
