@@ -21,6 +21,18 @@ class ProductController {
     });
   }
 
+  obtenerPorId(id) {
+    return new Promise((resolve, reject) => {
+      const producto = productsDB.find((p) => p.id === id);
+
+      if (producto) {
+        resolve(producto);
+      } else {
+        reject(`No se encontró ningún producto con el ID ${id}`);
+      }
+    });
+  }
+
   listar() {
     return new Promise((resolve, reject) => {
       resolve(productsDB);
