@@ -53,6 +53,19 @@ class ProductController {
     });
   }
 
+  eliminar(id) {
+    return new Promise((resolve, reject) => {
+      const index = productsDB.findIndex((p) => p.id === id);
+
+      if (index !== -1) {
+        const productoEliminado = productsDB.splice(index, 1);
+        resolve(productoEliminado[0]);
+      } else {
+        reject(`No se encontró ningún producto con el ID ${id} para eliminar.`);
+      }
+    });
+  }
+
   listar() {
     return new Promise((resolve, reject) => {
       resolve(productsDB);

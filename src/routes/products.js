@@ -97,4 +97,24 @@ router.put("/:id", function (req, res, next) {
     });
 });
 
+router.delete("/:id", function (req, res, next) {
+  const productId = req.params.id;
+
+  productController
+    .eliminar(productId)
+    .then((productoEliminado) => {
+      res.status(200).json({
+        status: 200,
+        mensaje: "Producto eliminado con éxito",
+        producto: productoEliminado,
+      });
+    })
+    .catch((error) => {
+      res.status(404).json({
+        status: 404,
+        mensaje: error,
+      });
+    });
+});
+
 module.exports = router;
