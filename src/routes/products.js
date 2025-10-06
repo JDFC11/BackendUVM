@@ -37,4 +37,24 @@ router.get("/saludar", function (req, res, next) {
     });
 });
 
+router.post("/", function (req, res, next) {
+  const nuevoProductoData = req.body;
+
+  productController
+    .agregar(nuevoProductoData)
+    .then((productoAgregado) => {
+      res.status(201).json({
+        status: 201,
+        mensaje: "Producto agregado con éxito",
+        producto: productoAgregado,
+      });
+    })
+    .catch((error) => {
+      res.status(400).json({
+        status: 400,
+        mensaje: error,
+      });
+    });
+});
+
 module.exports = router;
