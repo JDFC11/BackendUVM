@@ -76,4 +76,25 @@ router.get("/:id", function (req, res, next) {
     });
 });
 
+router.put("/:id", function (req, res, next) {
+  const productId = req.params.id;
+  const productData = req.body;
+
+  productController
+    .actualizar(productId, productData)
+    .then((productoActualizado) => {
+      res.status(200).json({
+        status: 200,
+        mensaje: "Producto actualizado con éxito",
+        producto: productoActualizado,
+      });
+    })
+    .catch((error) => {
+      res.status(404).json({
+        status: 404,
+        mensaje: error,
+      });
+    });
+});
+
 module.exports = router;

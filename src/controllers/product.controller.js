@@ -33,6 +33,26 @@ class ProductController {
     });
   }
 
+  actualizar(id, productData) {
+    return new Promise((resolve, reject) => {
+      if (!productData.nombre || !productData.precio) {
+        return reject("Datos incompletos para la actualización.");
+      }
+
+      const index = productsDB.findIndex((p) => p.id === id);
+
+      if (index !== -1) {
+        productsDB[index].nombre = productData.nombre;
+        productsDB[index].precio = productData.precio;
+        resolve(productsDB[index]);
+      } else {
+        reject(
+          `No se encontró ningún producto con el ID ${id} para actualizar.`
+        );
+      }
+    });
+  }
+
   listar() {
     return new Promise((resolve, reject) => {
       resolve(productsDB);
